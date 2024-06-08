@@ -15,16 +15,16 @@ enum Era: string {
   case Reiwa = 'R';
 
   /**
-   * 開始日を取得.
+   * 元号の開始日を取得.
    */
-  public function getStartDate(): \DateTime {
-    return new \DateTime(match($this) {
+  public function getStartDate(): string {
+    return match($this) {
       self::Meiji => '1873-01-01',
       self::Taisho => '1912-07-30',
       self::Showa => '1926-12-25',
       self::Heisei => '1989-01-08',
       self::Reiwa => '2019-05-01',
-    });
+    };
   }
 
   /**
@@ -41,7 +41,7 @@ enum Era: string {
   }
 
   /**
-   * Datetime オブジェクトから元号を取得.
+   * Datetimeオブジェクトから元号を取得.
    */
   public static function fromDateTime(DrupalDateTime $date): ?self {
     foreach (array_reverse(self::cases()) as $case) {
@@ -51,6 +51,14 @@ enum Era: string {
     }
     // 日付がどの元号にも属していない場合.
     return NULL;
+  }
+
+  /**
+   * 元号が開始して何年かを取得.
+   */
+  public function yearSinceStartEra($datetime): int {
+    $startdate = new DrupalDateTime($this->getStartDate());
+    return $startdate->diff($datetime)->y + 1;
   }
 
 }

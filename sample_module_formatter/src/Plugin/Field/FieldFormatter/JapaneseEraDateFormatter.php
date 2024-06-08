@@ -28,7 +28,7 @@ final class JapaneseEraDateFormatter extends FormatterBase {
     foreach ($items as $delta => $item) {
       $date = new DrupalDateTime($item->date);
 
-      // Convert the date to Japanese era format here.
+      // Convert the date to Japanese era format.
       $markup = $this->convertDateTime($date);
 
       $elements[$delta] = ['#markup' => $markup];
