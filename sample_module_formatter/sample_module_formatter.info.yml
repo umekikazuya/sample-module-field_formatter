@@ -1,0 +1,5 @@
+name: 'Field Formatter'
+type: module
+description: 'FieldFormatterPluginのサンプルコード.'
+package: 'Sample'
+core_version_requirement: ^10
