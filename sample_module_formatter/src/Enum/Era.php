@@ -8,23 +8,23 @@ use Drupal\Core\Datetime\DrupalDateTime;
  * 元号.
  */
 enum Era: string {
-  case Meiji = 'Meiji';
-  case Taisho = 'Taisho';
-  case Showa = 'Showa';
-  case Heisei = 'Heisei';
-  case Reiwa = 'Reiwa';
+  case Meiji = 'M';
+  case Taisho = 'T';
+  case Showa = 'S';
+  case Heisei = 'H';
+  case Reiwa = 'R';
 
   /**
    * 開始日を取得.
    */
-  public function getStartDate(): string {
-    return match($this) {
+  public function getStartDate(): \DateTime {
+    return new \DateTime(match($this) {
       self::Meiji => '1873-01-01',
       self::Taisho => '1912-07-30',
       self::Showa => '1926-12-25',
       self::Heisei => '1989-01-08',
       self::Reiwa => '2019-05-01',
-    };
+    });
   }
 
   /**
@@ -44,7 +44,7 @@ enum Era: string {
    * Datetime オブジェクトから元号を取得.
    */
   public static function fromDateTime(DrupalDateTime $date): ?self {
-    foreach (self::cases() as $case) {
+    foreach (array_reverse(self::cases()) as $case) {
       if ($date >= $case->getStartDate()) {
         return $case;
       }
